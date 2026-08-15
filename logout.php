@@ -1,6 +1,11 @@
 <?php
 require_once 'config.php';
 
+// Iniciar sessão se não tiver sido iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Verifica se o usuário está logado
 if (isset($_SESSION['user'])) {
     // Auditoria do evento de logout
