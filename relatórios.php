@@ -35,12 +35,12 @@ $debtors = $pdo->query("
         c.phone,
         l.id AS loan_id,
         l.amount,
-        l.monthly_interest,
+        l.interest_rate,
         l.term_months,
         l.start_date,
         l.status,
         COALESCE(SUM(i.amount_due - COALESCE(i.amount_paid, 0)), 0) AS devida_parcelas,
-        COALESCE((SELECT SUM(p.amount) FROM payments p WHERE p.client_id = c.id), 0) AS total_pago_cliente,
+        COALESCE((SELECT SUM(p.amount) FROM payments p WHERE p.loan_id = l.id), 0) AS total_pago_emprestimo,
         CASE 
             WHEN EXISTS (
                 SELECT 1 FROM installments i2 
@@ -64,7 +64,7 @@ $debtors = $pdo->query("
               AND CURRENT_DATE > (l.start_date + (l.term_months || ' months')::interval)
           )
       )
-    GROUP BY c.id, c.name, c.phone, l.id, l.amount, l.monthly_interest, l.term_months, l.start_date, l.status
+    GROUP BY c.id, c.name, c.phone, l.id, l.amount, l.interest_rate, l.term_months, l.start_date, l.status
     ORDER BY devida_parcelas DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 
