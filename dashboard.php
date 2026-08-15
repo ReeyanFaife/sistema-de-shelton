@@ -56,7 +56,6 @@ $clients_paid = $pdo->query("
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Painel - Shelton Business</title>
   
-  <!-- Script Anti-Flicker (Aplica o tema instantaneamente antes do render) -->
   <script>
     (function() {
       const savedTheme = localStorage.getItem('theme');
@@ -68,7 +67,6 @@ $clients_paid = $pdo->query("
     })();
   </script>
 
-  <!-- Google Fonts & Bootstrap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -81,7 +79,6 @@ $clients_paid = $pdo->query("
       --accent-color: #2563eb;
     }
 
-    /* Variáveis do Tema Claro */
     [data-bs-theme="light"] {
       --bg-main: #f8fafc;
       --bg-card: #ffffff;
@@ -92,7 +89,6 @@ $clients_paid = $pdo->query("
       --action-icon-bg: #f1f5f9;
     }
 
-    /* Variáveis do Tema Escuro */
     [data-bs-theme="dark"] {
       --bg-main: #0f172a;
       --bg-card: #1e293b;
@@ -111,7 +107,6 @@ $clients_paid = $pdo->query("
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* --- SIDEBAR --- */
     .sidebar {
       width: var(--sidebar-width);
       height: 100vh;
@@ -183,7 +178,6 @@ $clients_paid = $pdo->query("
       justify-content: space-between;
     }
 
-    /* --- CONTEÚDO PRINCIPAL --- */
     .main-content {
       margin-left: var(--sidebar-width);
       padding: 2rem;
@@ -191,7 +185,6 @@ $clients_paid = $pdo->query("
       transition: margin-left 0.3s ease;
     }
 
-    /* --- CARDS DE ESTATÍSTICA --- */
     .card-stat {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -223,7 +216,6 @@ $clients_paid = $pdo->query("
     .stat-amber { background: rgba(217, 119, 6, 0.15); color: #f59e0b; }
     .stat-red { background: rgba(220, 38, 38, 0.15); color: #ef4444; }
 
-    /* --- AÇÕES RÁPIDAS --- */
     .action-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -256,7 +248,6 @@ $clients_paid = $pdo->query("
       font-size: 1.2rem;
     }
 
-    /* --- BOTÃO TEMA DARK/LIGHT --- */
     .theme-toggle-btn {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -277,7 +268,6 @@ $clients_paid = $pdo->query("
       color: var(--accent-color);
     }
 
-    /* --- RESPONSIVIDADE --- */
     @media (max-width: 991px) {
       .sidebar {
         width: 100%;
@@ -325,6 +315,10 @@ $clients_paid = $pdo->query("
         <i class="bi bi-bar-chart-fill"></i>
         <span>Relatórios</span>
       </a>
+      <a class="nav-link-custom" href="register.php">
+        <i class="bi bi-person-plus-fill"></i>
+        <span>Novo Utilizador</span>
+      </a>
     </nav>
   </div>
 
@@ -334,7 +328,7 @@ $clients_paid = $pdo->query("
         <i class="bi bi-person"></i>
       </div>
       <div>
-        <div class="fw-bold fs-7 text-truncate" style="max-width: 120px;"><?= htmlspecialchars($user['name']) ?></div>
+        <div class="fw-bold fs-7 text-truncate" style="max-width: 120px;"><?= htmlspecialchars($user['name'] ?? 'Operador') ?></div>
         <small style="color: var(--text-muted); font-size: 0.75rem;">Operador</small>
       </div>
     </div>
@@ -346,14 +340,12 @@ $clients_paid = $pdo->query("
 
 <!-- MAIN CONTENT -->
 <main class="main-content">
-  <!-- Top Bar -->
   <header class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h3 class="fw-bold mb-1">Visão Geral</h3>
       <p class="small mb-0" style="color: var(--text-muted);">Acompanhe o estado do seu microcrédito em tempo real.</p>
     </div>
 
-    <!-- BOTÃO DE ALTERAR TEMA (CANTO SUPERIOR DIREITO) -->
     <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Alternar Tema">
       <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
       <span id="themeText">Modo Escuro</span>
@@ -440,11 +432,11 @@ $clients_paid = $pdo->query("
         </a>
       </div>
       <div class="col-md-6 col-lg-3">
-        <a href="relatórios.php" class="action-card">
-          <div class="action-icon text-info">
-            <i class="bi bi-file-earmark-bar-graph"></i>
+        <a href="register.php" class="action-card">
+          <div class="action-icon text-purple" style="color: #8b5cf6;">
+            <i class="bi bi-person-plus-fill"></i>
           </div>
-          <span>Ver Relatórios</span>
+          <span>Novo Utilizador</span>
         </a>
       </div>
     </div>
@@ -458,7 +450,6 @@ $clients_paid = $pdo->query("
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- JAVASCRIPT PARA GERENCIAMENTO DO TEMA -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const htmlEl = document.documentElement;
@@ -466,7 +457,6 @@ $clients_paid = $pdo->query("
     const themeIcon = document.getElementById('themeIcon');
     const themeText = document.getElementById('themeText');
 
-    // Função para atualizar a interface do botão com base no tema ativo
     function updateButtonUI(theme) {
       if (theme === 'dark') {
         themeIcon.className = 'bi bi-sun-fill text-warning';
@@ -477,11 +467,9 @@ $clients_paid = $pdo->query("
       }
     }
 
-    // Inicialização ao carregar a página
     const currentTheme = htmlEl.getAttribute('data-bs-theme') || 'light';
     updateButtonUI(currentTheme);
 
-    // Evento de clique para alternar o tema
     themeToggleBtn.addEventListener('click', () => {
       const activeTheme = htmlEl.getAttribute('data-bs-theme');
       const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
