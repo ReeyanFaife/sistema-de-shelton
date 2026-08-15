@@ -124,12 +124,6 @@ if (isset($_SESSION['user'])) {
       box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
     }
 
-    .btn-register {
-      border-radius: 10px;
-      padding: 10px;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
 
     .copyright {
       font-weight: 500;
@@ -197,16 +191,6 @@ if (isset($_SESSION['user'])) {
         </div>
         
       </form>
-
-      <!-- Divisor e Botão Cadastrar -->
-      <div class="text-center pt-3 border-top">
-        <p class="small text-muted mb-2">Ainda não tem um usuário?</p>
-        <a href="register.php" class="btn btn-outline-secondary btn-register w-100">
-          <i class="bi bi-person-plus-fill me-1"></i> Criar Nova Conta
-        </a>
-      </div>
-
-    </div>
 
     <!-- Rodapé -->
     <p class="text-center copyright">© <?php echo date('Y'); ?> Shelton Business. Todos os direitos reservados.</p>
