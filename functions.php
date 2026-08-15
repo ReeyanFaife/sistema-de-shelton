@@ -2,6 +2,19 @@
 // functions.php
 require_once 'config.php';
 
+// 1. Garantir que o PHP reconheça o HTTPS do Render
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+// 2. Iniciar a sessão se ainda não tiver sido iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    // Configurações recomendadas para segurança de cookies
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_only_cookies', 1);
+    session_start();
+}
+
 function find_user_by_username($pdo, $username) {
     $stmt = $pdo->prepare("SELECT id, name, username, password_hash, role FROM users WHERE username = :u");
     $stmt->execute(['u' => $username]);
@@ -9,6 +22,11 @@ function find_user_by_username($pdo, $username) {
 }
 
 function require_login() {
+    // Garante que a sessão está ativa
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
         exit;
@@ -16,6 +34,10 @@ function require_login() {
 }
 
 function require_role($role) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
     if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== $role) {
         http_response_code(403);
         echo "Acesso negado.";
