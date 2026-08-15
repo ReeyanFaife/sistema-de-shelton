@@ -15,8 +15,4 @@ try {
 } catch (PDOException $e) {
     die("Erro de conexão: " . $e->getMessage());
 }
-
-// helper: current user
-function current_user() {
-    return $_SESSION['user'] ?? null;
-}
+?>
