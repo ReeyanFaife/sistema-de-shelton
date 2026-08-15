@@ -1,7 +1,8 @@
 <?php
 // login.php
-// Iniciamos a sessão antes de qualquer coisa
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once 'config.php';
 
@@ -19,12 +20,12 @@ if (isset($_SESSION['user'])) {
   <title>Login - Shelton Business | Microcrédito</title>
   <!-- Bootstrap 5.3.2 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Ícones do Bootstrap (Opcional, mas melhora o visual) -->
+  <!-- Ícones do Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
   
   <style>
     :root {
-      --primary-color: #0d6efd; /* Azul Bootstrap padrão, pode mudar para a cor da sua marca */
+      --primary-color: #0d6efd;
       --text-dark: #212529;
     }
 
@@ -35,7 +36,6 @@ if (isset($_SESSION['user'])) {
     }
 
     body {
-      /* IMAGEM DE FUNDO RELACIONADA A EMPRÉSTIMO/FINANÇAS (Via Link) */
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
                         url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=1920&auto=format&fit=crop');
       background-no-repeat: no-repeat;
@@ -66,8 +66,8 @@ if (isset($_SESSION['user'])) {
     .card-login {
       border: none;
       border-radius: 20px;
-      backdrop-filter: blur(10px); /* Desfoque do fundo */
-      background-color: rgba(255, 255, 255, 0.85); /* Fundo branco semi-transparente */
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.85);
       box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       padding: 40px !important;
     }
@@ -79,12 +79,11 @@ if (isset($_SESSION['user'])) {
       margin-bottom: 0.5rem;
     }
 
-    /* Estilização dos Inputs */
     .form-control {
       border-radius: 10px;
       padding: 12px 15px;
       border: 1px solid #ced4da;
-      color: black !important; /* Força letra preta ao digitar */
+      color: black !important;
       background-color: white;
       transition: all 0.2s ease-in-out;
     }
@@ -95,27 +94,22 @@ if (isset($_SESSION['user'])) {
     }
 
     .form-control::placeholder {
-      color: #6c757d; /* Placeholder cinza escuro para contraste */
+      color: #6c757d;
       opacity: 0.8;
     }
 
-    /* Input Group para ícones */
     .input-group-text {
       background-color: white;
       border-right: none;
       border-radius: 10px 0 0 10px;
       color: #6c757d;
     }
+
     .input-group .form-control {
       border-left: none;
       border-radius: 0 10px 10px 0;
     }
-    .input-group .form-control:focus + .input-group-text,
-    .input-group .form-control:focus {
-       /* Ajuste visual quando o input group tem foco */
-    }
 
-    /* Botão Moderno */
     .btn-login {
       border-radius: 10px;
       padding: 12px;
@@ -130,6 +124,13 @@ if (isset($_SESSION['user'])) {
       box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
     }
 
+    .btn-register {
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
     .copyright {
       font-weight: 500;
       font-size: 0.9rem;
@@ -137,10 +138,9 @@ if (isset($_SESSION['user'])) {
       margin-top: 25px;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
-    
-    /* Feedback de erro visual (JS) */
+
     .is-invalid + .invalid-feedback {
-        display: block;
+      display: block;
     }
   </style>
 </head>
@@ -159,6 +159,14 @@ if (isset($_SESSION['user'])) {
     <div class="card card-login p-4">
       <h3 class="text-center mb-4 fw-bold" style="color: var(--text-dark);">Acessar Conta</h3>
       
+      <!-- Alerta se houver erro no login -->
+      <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show small py-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i> Usuário ou senha incorretos.
+          <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php endif; ?>
+
       <form action="authenticate.php" method="post" id="loginForm" novalidate>
         
         <!-- Usuário -->
@@ -182,13 +190,22 @@ if (isset($_SESSION['user'])) {
         </div>
         
         <!-- Botão Entrar -->
-        <div class="d-grid">
+        <div class="d-grid mb-3">
           <button class="btn btn-primary btn-login" type="submit">
             Entrar <i class="bi bi-box-arrow-in-right ms-2"></i>
           </button>
         </div>
         
       </form>
+
+      <!-- Divisor e Botão Cadastrar -->
+      <div class="text-center pt-3 border-top">
+        <p class="small text-muted mb-2">Ainda não tem um usuário?</p>
+        <a href="register.php" class="btn btn-outline-secondary btn-register w-100">
+          <i class="bi bi-person-plus-fill me-1"></i> Criar Nova Conta
+        </a>
+      </div>
+
     </div>
 
     <!-- Rodapé -->
@@ -196,12 +213,10 @@ if (isset($_SESSION['user'])) {
   </div>
 </div>
 
-<!-- Bootstrap JS (Opcional se não usar componentes JS) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 document.getElementById('loginForm').addEventListener('submit', function(e){
-  // Limpa estados de validação anteriores
   this.classList.remove('was-validated');
   const inputs = this.querySelectorAll('.form-control');
   inputs.forEach(input => input.classList.remove('is-invalid'));
@@ -210,7 +225,6 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
   const p = this.password;
   let isValid = true;
 
-  // Validação simples de preenchimento
   if (!u.value.trim()) {
     u.classList.add('is-invalid');
     isValid = false;
@@ -222,11 +236,9 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
   }
 
   if (!isValid) {
-    e.preventDefault(); // Impede o envio do formulário
-    // Opcional: focar no primeiro campo com erro
+    e.preventDefault();
     this.querySelector('.is-invalid').focus();
   } else {
-    // Se estiver válido, adiciona a classe de validação do bootstrap para feedback visual antes do reload
     this.classList.add('was-validated');
   }
 });
