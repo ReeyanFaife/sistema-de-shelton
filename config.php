@@ -2,13 +2,13 @@
 // config.php
 session_start();
 
-$DB_HOST = '127.0.0.1';
-$DB_PORT = '5432';
-$DB_NAME = 'BD_SHELTON';
-$DB_USER = 'postgres';
-$DB_PASS = 'Shelton2003';
+$host     = getenv('PGHOST')     ?: 'ep-snowy-credit-axv7n9xs-pooler.c-4.us-east-2.aws.neon.tech';
+$db       = getenv('PGDATABASE') ?: 'neondb';
+$user     = getenv('PGUSER')     ?: 'neondb_owner';
+$pass     = getenv('PGPASSWORD') ?: 'npg_CRBlKYaZw5O9';
+$port     = getenv('PGPORT')     ?: '5432';
 
-$dsn = "pgsql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME";
+$dsn = "pgsql:host=$host;port=$port;dbname=$db;sslmode=require";
 try {
     $pdo = new PDO($dsn, $DB_USER, $DB_PASS, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
