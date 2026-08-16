@@ -34,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_type = 'error';
     } else {
         // Inserção direta sem bloqueio de duplicidade
-        $stmt = $pdo->prepare("\
-            INSERT INTO payments (client_id, amount, paid_by)\
-            VALUES (:client_id, :amount, :paid_by)\
-        ");
+        // Use a single-line SQL string (no backslashes) to avoid sending
+        // accidental backslash characters to the DB engine.
+        $sql = "INSERT INTO payments (client_id, amount, paid_by) VALUES (:client_id, :amount, :paid_by)";
+        $stmt = $pdo->prepare($sql);
         // Bind with explicit types to avoid type-mismatch (Postgres strict types)
         $stmt->bindValue(':client_id', $client_id, PDO::PARAM_INT);
         $stmt->bindValue(':amount', sprintf('%.2f', $amount));
