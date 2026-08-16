@@ -34,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_type = 'error';
     } else {
         // Inserção direta sem bloqueio de duplicidade
-        $stmt = $pdo->prepare("
-            INSERT INTO payments (client_id, amount, paid_by)
-            VALUES (:client_id, :amount, :paid_by)
+        $stmt = $pdo->prepare("\
+            INSERT INTO payments (client_id, amount, paid_by)\
+            VALUES (:client_id, :amount, :paid_by)\
         ");
-        $stmt->execute([
-            ':client_id' => $client_id,
-            ':amount'    => $amount,
-            ':paid_by'   => $paid_by
-        ]);
+        // Bind with explicit types to avoid type-mismatch (Postgres strict types)
+        $stmt->bindValue(':client_id', $client_id, PDO::PARAM_INT);
+        $stmt->bindValue(':amount', sprintf('%.2f', $amount));
+        $stmt->bindValue(':paid_by', $paid_by, PDO::PARAM_STR);
+        $stmt->execute();
 
         $message = "Pagamento registrado com sucesso!";
         $message_type = 'success';
