@@ -412,6 +412,57 @@ foreach ($active as $a) {
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 640px) {
+            header {
+                position: static;
+                padding: 14px 0;
+            }
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+                padding: 0 16px;
+            }
+            .header-actions {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .header-actions .btn {
+                justify-content: center;
+                padding: 10px 12px;
+            }
+            .container {
+                margin: 18px auto;
+                padding: 0 16px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+            .stat-card {
+                padding: 16px;
+            }
+            .panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 10px;
+                padding: 16px;
+            }
+            .panel-actions {
+                width: 100%;
+            }
+            .panel-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            th, td {
+                padding: 10px 12px;
+            }
+        }
     </style>
 </head>
 <body>

@@ -279,13 +279,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .sidebar {
       width: 100%;
       height: auto;
-      position: relative;
+      position: sticky;
+      top: 0;
       border-right: none;
       border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem;
+    }
+    .sidebar > div:first-child {
+      min-width: 0;
+    }
+    .brand-logo {
+      padding: 0.25rem 0.5rem 0.75rem;
+    }
+    .nav-label {
+      display: none;
+    }
+    .sidebar nav {
+      flex-direction: row !important;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+      scrollbar-width: none;
+    }
+    .sidebar nav::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-link-custom {
+      flex: 0 0 auto;
+      min-width: 76px;
+      justify-content: center;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 0;
+      border-radius: 12px;
+      font-size: 0.76rem;
+      text-align: center;
+      gap: 0.35rem;
+      flex-direction: column;
+    }
+    .nav-link-custom i {
+      font-size: 1.1rem;
+    }
+    .user-profile {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
     }
     .main-content {
       margin-left: 0;
-      padding: 1.5rem;
+      padding: 1rem;
     }
   }
 
@@ -437,6 +477,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <a class="nav-link-custom" href="relatórios.php">
         <i class="bi bi-bar-chart-fill"></i>
         <span>Relatórios</span>
+      </a>
+      <a class="nav-link-custom" href="create_user.php">
+        <i class="bi bi-person-plus-fill"></i>
+        <span>Novo Utilizador</span>
       </a>
     </nav>
   </div>

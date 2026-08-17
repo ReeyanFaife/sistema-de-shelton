@@ -272,13 +272,58 @@ $clients_paid = $pdo->query("
       .sidebar {
         width: 100%;
         height: auto;
-        position: relative;
+        position: sticky;
+        top: 0;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+        padding: 0.75rem;
+      }
+      .sidebar > div:first-child {
+        min-width: 0;
+      }
+      .brand-logo {
+        padding: 0.25rem 0.5rem 0.75rem;
+      }
+      .nav-label {
+        display: none;
+      }
+      .sidebar nav {
+        flex-direction: row !important;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.25rem;
+        scrollbar-width: none;
+      }
+      .sidebar nav::-webkit-scrollbar {
+        display: none;
+      }
+      .nav-link-custom {
+        flex: 0 0 auto;
+        min-width: 76px;
+        justify-content: center;
+        padding: 0.6rem 0.75rem;
+        margin-bottom: 0;
+        border-radius: 12px;
+        font-size: 0.76rem;
+        text-align: center;
+        gap: 0.35rem;
+        flex-direction: column;
+      }
+      .nav-link-custom i {
+        font-size: 1.1rem;
+      }
+      .user-profile {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
       }
       .main-content {
         margin-left: 0;
-        padding: 1.5rem;
+        padding: 1rem;
+      }
+      .main-content > header {
+        align-items: flex-start !important;
+        flex-direction: column;
+        gap: 0.75rem;
       }
     }
   </style>
@@ -315,7 +360,7 @@ $clients_paid = $pdo->query("
         <i class="bi bi-bar-chart-fill"></i>
         <span>Relatórios</span>
       </a>
-      <a class="nav-link-custom" href="register.php">
+      <a class="nav-link-custom" href="create_user.php">
         <i class="bi bi-person-plus-fill"></i>
         <span>Novo Utilizador</span>
       </a>
@@ -432,7 +477,7 @@ $clients_paid = $pdo->query("
         </a>
       </div>
       <div class="col-md-6 col-lg-3">
-        <a href="register.php" class="action-card">
+        <a href="create_user.php" class="action-card">
           <div class="action-icon text-purple" style="color: #8b5cf6;">
             <i class="bi bi-person-plus-fill"></i>
           </div>

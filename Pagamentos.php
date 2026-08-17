@@ -466,9 +466,55 @@ foreach ($payments as $p) {
         }
 
         @media (max-width: 640px) {
-            .container { padding: 0 16px; margin: 20px auto; }
+            header {
+                position: static;
+                padding: 14px 0;
+            }
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+                padding: 0 16px;
+            }
+            .header-content .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .container { padding: 0 16px; margin: 18px auto; }
             .stats-grid { grid-template-columns: 1fr; }
+            .stat-card {
+                padding: 16px;
+            }
+            .stat-content span {
+                font-size: 20px;
+            }
+            .section-header {
+                align-items: stretch;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .section-header .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .form-card {
+                padding: 18px;
+            }
+            .form-header {
+                align-items: flex-start;
+                gap: 12px;
+            }
             .cards-grid { grid-template-columns: 1fr; }
+            .payment-card {
+                padding: 16px;
+            }
+            .card-top {
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .modal-overlay {
+                padding: 12px;
+            }
         }
     </style>
     <script>
