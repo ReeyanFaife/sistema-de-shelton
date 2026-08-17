@@ -20,10 +20,11 @@ $payments = $pdo->query("
         c.id AS client_id,
         c.name AS cliente,
         p.amount AS valor_pago,
-        p.paid_by AS pago_por,
+        COALESCE(u.username, u.name, p.paid_by::text, 'Sistema') AS pago_por,
         p.paid_at AS data_pagamento
     FROM payments p
     JOIN clients c ON c.id = p.client_id
+    LEFT JOIN users u ON u.id::text = p.paid_by::text
     ORDER BY p.paid_at DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS payments (
     id SERIAL PRIMARY KEY,
     client_id INTEGER REFERENCES clients(id) ON DELETE CASCADE,
     amount NUMERIC(10,2) NOT NULL,
-    paid_by VARCHAR(100),
+    paid_by INTEGER REFERENCES users(id),
     paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ");
@@ -24,7 +24,7 @@ $message_type = ''; // 'success' ou 'error'
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client_id = isset($_POST['client_id']) ? (int) $_POST['client_id'] : 0;
     $amount = isset($_POST['amount']) ? (float) $_POST['amount'] : 0;
-    $paid_by = $_SESSION['user']['username'] ?? 'Sistema';
+    $paid_by = isset($_SESSION['user']['id']) ? (int) $_SESSION['user']['id'] : null;
 
     if ($client_id <= 0) {
         $message = "Selecione um cliente válido.";
@@ -41,7 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Bind with explicit types to avoid type-mismatch (Postgres strict types)
         $stmt->bindValue(':client_id', $client_id, PDO::PARAM_INT);
         $stmt->bindValue(':amount', sprintf('%.2f', $amount));
-        $stmt->bindValue(':paid_by', $paid_by, PDO::PARAM_STR);
+        if ($paid_by === null) {
+            $stmt->bindValue(':paid_by', null, PDO::PARAM_NULL);
+        } else {
+            $stmt->bindValue(':paid_by', $paid_by, PDO::PARAM_INT);
+        }
         $stmt->execute();
 
         $message = "Pagamento registrado com sucesso!";
@@ -58,9 +62,15 @@ $clients = $pdo->query("
 
 // --- Buscar histórico de todos os pagamentos ---
 $payments = $pdo->query("
-    SELECT p.id, c.name AS cliente, p.amount AS pago, p.paid_by, p.paid_at
+    SELECT
+        p.id,
+        c.name AS cliente,
+        p.amount AS pago,
+        COALESCE(u.username, u.name, p.paid_by::text, 'Sistema') AS paid_by,
+        p.paid_at
     FROM payments p
     JOIN clients c ON c.id = p.client_id
+    LEFT JOIN users u ON u.id::text = p.paid_by::text
     ORDER BY p.paid_at DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 

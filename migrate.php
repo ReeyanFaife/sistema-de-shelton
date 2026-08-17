@@ -80,6 +80,7 @@ try {
     -- Pagamentos
     CREATE TABLE payments (
       id SERIAL PRIMARY KEY,
+      client_id INTEGER REFERENCES clients(id) ON DELETE CASCADE,
       installment_id INTEGER REFERENCES installments(id) ON DELETE SET NULL,
       loan_id INTEGER REFERENCES loans(id) ON DELETE SET NULL,
       amount NUMERIC(14,2) NOT NULL,
