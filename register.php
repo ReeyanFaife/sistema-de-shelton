@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             // Insere o novo usuário na tabela 'users' do PostgreSQL
-            $stmt = $pdo->prepare("INSERT INTO users (name, username, password_hash, role) VALUES (?, ?, ?, 'admin')");
+            $stmt = $pdo->prepare("INSERT INTO users (name, username, password_hash, role) VALUES (?, ?, ?, 'funcionario')");
             $stmt->execute([$name, $username, $hash]);
 
             $message = "Conta criada com sucesso! Você já pode acessar a plataforma.";

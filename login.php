@@ -136,6 +136,35 @@ if (isset($_SESSION['user'])) {
     .is-invalid + .invalid-feedback {
       display: block;
     }
+
+    .signup-block {
+      border-top: 1px solid rgba(33, 37, 41, 0.12);
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        min-height: 100vh;
+        height: auto !important;
+        padding-top: 24px;
+        padding-bottom: 24px;
+      }
+
+      .brand {
+        font-size: 2.1rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 18px;
+      }
+
+      .card-login {
+        padding: 24px !important;
+        border-radius: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -191,6 +220,14 @@ if (isset($_SESSION['user'])) {
         </div>
         
       </form>
+
+      <div class="signup-block text-center">
+        <p class="small text-muted mb-2">Ainda nao tem conta?</p>
+        <a href="register.php" class="btn btn-outline-primary w-100 py-2 fw-semibold" style="border-radius: 10px;">
+          <i class="bi bi-person-plus-fill me-1"></i> Criar conta
+        </a>
+      </div>
+    </div>
 
     <!-- Rodapé -->
     <p class="text-center copyright">© <?php echo date('Y'); ?> Shelton Business. Todos os direitos reservados.</p>
