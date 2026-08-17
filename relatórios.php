@@ -36,7 +36,7 @@ $debtors = $pdo->query("
         c.phone,
         l.id AS loan_id,
         l.amount,
-        l.interest_rate,
+        l.interest_rate AS monthly_interest,
         l.term_months,
         l.start_date,
         l.status,
@@ -73,6 +73,7 @@ $debtors = $pdo->query("
 $active = $pdo->query("
     SELECT 
         l.*, 
+        l.interest_rate AS monthly_interest,
         c.id AS client_id,
         c.name AS client_name,
         COALESCE(l.status, 'ativo') AS status_real,

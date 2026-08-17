@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $pdo->prepare("
                 INSERT INTO loans (
-                    client_id, loan_type_id, amount, monthly_interest, term_months, start_date, total_with_interest
+                    client_id, loan_type_id, amount, interest_rate, term_months, start_date, total_with_interest
                 ) VALUES (?, ?, ?, ?, ?, ?, ?)
             ");
             $stmt->execute([
